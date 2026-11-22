@@ -1,7 +1,7 @@
 # Analysis Report: Social Network Connection & Recommendation Analysis
 
-**Team Code Divas** - B.Tech CSE, K.R Mangalam University
-Riya (2501010329, Team Leader), Samaira (2501010330), Mansi (2501010339), Aashi (2501010343), Nicky (2501010281)
+**Riya (2501010329)** - B.Tech CSE, K.R Mangalam University
+Faculty mentor: Anvi Aggarwal
 
 ## 1. Problem
 Model a social network where **users are vertices** and **connections are edges**, then use **BFS** and **DFS** to
@@ -90,3 +90,4 @@ chains (a 50 000-user chain is covered by a unit test). The iterative version ha
 * Edges are unweighted; closeness strength (e.g. message frequency) could be added with Dijkstra.
 * Recommendations use only mutual-friend counts; Jaccard similarity, shared interests or PageRank would improve quality.
 * Python's constant factors are high; the same design in C++/Java would be faster in absolute terms.
+* 
