@@ -1,7 +1,7 @@
 # Social Network Connection & Recommendation Analysis
 
 Capstone Project 4 - **Design & Analysis of Algorithms**
-Team Code Divas, K.R Mangalam University (B.Tech CSE, Section E)
+Riya (2501010329), K.R Mangalam University (B.Tech CSE, Section E)
 
 A social network analysis toolkit in pure Python. Users are **vertices**, connections are **edges**.
 It explores the network with **BFS** and **DFS**, finds **mutual connections**, the **shortest connection path**
@@ -106,9 +106,9 @@ docs/REPORT.md   analysis report
 results/         benchmark CSV and charts
 ```
 
-## Team
-Riya (2501010329, Team Leader) - Samaira (2501010330) - Mansi (2501010339) - Aashi (2501010343) - Nicky (2501010281)
-Faculty mentor: Alina Chakraborty Banerje
+## Author
+Riya (2501010329)
+Faculty mentor: Anvi Aggarwal
 
 ## License
 MIT
