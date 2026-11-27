@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>SocialNet — Social Network Connection &amp; Recommendation Analysis</title>
+<style>
+:root{--bg:#0b0d1a;--bg2:#12152a;--card:#171b35;--tx:#eef0ff;--mut:#9aa0c8;--a:#7c5cff;--b:#22d3ee;--c:#ff5c9d;--ok:#34d399;--bd:#2a2f57;--node:#2a2f57;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:light){:root:not([data-theme="dark"]){--bg:#f5f6ff;--bg2:#e9ebff;--card:#fff;--tx:#14163a;--mut:#5b6190;--bd:#d6d9f5;--node:#cfd3f5}}
+:root[data-theme="light"]{--bg:#f5f6ff;--bg2:#e9ebff;--card:#fff;--tx:#14163a;--mut:#5b6190;--bd:#d6d9f5;--node:#cfd3f5}
+:root[data-theme="dark"]{--bg:#0b0d1a;--bg2:#12152a;--card:#171b35;--tx:#eef0ff;--mut:#9aa0c8;--bd:#2a2f57;--node:#2a2f57}
+*{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--tx);font:16px/1.6 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;overflow-x:hidden}
+.wrap{max-width:1080px;margin:auto;padding:0 20px}
+nav{position:sticky;top:0;z-index:5;backdrop-filter:blur(12px);background:color-mix(in srgb,var(--bg) 75%,transparent);border-bottom:1px solid var(--bd)}
+nav .wrap{display:flex;align-items:center;gap:18px;height:56px}
+nav b{background:linear-gradient(90deg,var(--a),var(--b));-webkit-background-clip:text;background-clip:text;color:transparent;font-size:18px}
+nav a{color:var(--mut);text-decoration:none;font-size:14px}nav a:hover{color:var(--tx)}nav .sp{flex:1}
+nav .lk{display:none}@media(min-width:720px){nav .lk{display:inline}}
+#th{background:var(--card);border:1px solid var(--bd);color:var(--tx);border-radius:99px;width:34px;height:34px;cursor:pointer}
+.hero{position:relative;padding:70px 0 50px;text-align:center;overflow:hidden}
+.hero canvas{position:absolute;inset:0;width:100%;height:100%;opacity:.55;z-index:0}
+.hero .wrap{position:relative;z-index:1}
+.pill{display:inline-block;border:1px solid var(--bd);background:var(--card);padding:4px 14px;border-radius:99px;font-size:13px;color:var(--mut)}
+h1{font-size:clamp(34px,6vw,64px);line-height:1.08;margin:18px 0 14px;letter-spacing:-.02em}
+h1 span{background:linear-gradient(90deg,var(--a),var(--b),var(--c));-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero p{max-width:640px;margin:0 auto 26px;color:var(--mut);font-size:18px}
+.btn{display:inline-block;padding:11px 24px;border-radius:12px;background:linear-gradient(90deg,var(--a),var(--b));color:#fff;text-decoration:none;font-weight:600;margin:4px}
+.btn.o{background:var(--card);color:var(--tx);border:1px solid var(--bd)}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin-top:44px}
+.st{background:var(--card);border:1px solid var(--bd);border-radius:16px;padding:18px}
+.st b{display:block;font-size:30px;background:linear-gradient(90deg,var(--b),var(--a));-webkit-background-clip:text;background-clip:text;color:transparent}
+.st small{color:var(--mut)}
+section{padding:60px 0}
+h2{font-size:clamp(26px,4vw,38px);margin:0 0 6px;letter-spacing:-.01em}
+.sub{color:var(--mut);margin:0 0 28px}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:18px;padding:20px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px}
+.feat .ic{font-size:26px}.feat h3{margin:8px 0 4px;font-size:17px}.feat p{margin:0;color:var(--mut);font-size:14px}
+.lab{display:grid;grid-template-columns:1fr;gap:16px}@media(min-width:900px){.lab{grid-template-columns:2fr 1fr}}
+.tabs{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}
+.tabs button,select{background:var(--bg2);color:var(--tx);border:1px solid var(--bd);border-radius:10px;padding:8px 13px;font:inherit;font-size:14px;cursor:pointer}
+.tabs button.on{background:linear-gradient(90deg,var(--a),var(--b));color:#fff;border-color:transparent}
+.row{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:12px}
+#cv{width:100%;height:440px;border-radius:14px;background:radial-gradient(circle at 50% 40%,var(--bg2),var(--bg));border:1px solid var(--bd);display:block;touch-action:none}
+.out h3{margin:0 0 8px;font-size:16px}.out{min-height:200px}
+.chip{display:inline-block;margin:3px;padding:3px 11px;border-radius:99px;font-size:13px;background:var(--bg2);border:1px solid var(--bd)}
+.chip.h{background:linear-gradient(90deg,var(--a),var(--b));color:#fff;border-color:transparent}
+.legend{color:var(--mut);font-size:13px;margin-top:10px}
+.dot{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:5px}
+table{width:100%;border-collapse:collapse;font-size:14px}th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--bd)}th{color:var(--mut);font-weight:600}
+td code{background:var(--bg2);padding:2px 8px;border-radius:6px;color:var(--b)}
+.scroll{overflow-x:auto}
+#ch svg{width:100%;height:auto;display:block}
+.bars{display:flex;flex-direction:column;gap:10px;margin-top:8px}
+.bar{display:grid;grid-template-columns:130px 1fr 80px;gap:10px;align-items:center;font-size:14px}
+.bar i{display:block;height:14px;border-radius:8px;background:linear-gradient(90deg,var(--a),var(--b));transition:width 1s}
+.bar.g i{background:linear-gradient(90deg,var(--ok),var(--b))}
+pre{background:var(--bg2);border:1px solid var(--bd);border-radius:14px;padding:16px;overflow-x:auto;font-size:13px;margin:0}
+pre .k{color:var(--c)}pre .s{color:var(--ok)}pre .c{color:var(--mut)}
+footer{border-top:1px solid var(--bd);padding:34px 0;text-align:center;color:var(--mut);font-size:14px}
+.rv{opacity:0;transform:translateY(24px);transition:.7s}.rv.in{opacity:1;transform:none}
+</style></head><body>
+<nav><div class="wrap"><b>SocialNet</b><span class="sp"></span><a class="lk" href="#lab">Live Lab</a><a class="lk" href="#algos">Algorithms</a><a class="lk" href="#bench">Benchmarks</a><a class="lk" href="#code">Code</a><button id="th" title="Toggle theme" aria-label="Toggle theme">◐</button></div></nav>
+
+<header class="hero"><canvas id="hc"></canvas><div class="wrap">
+<span class="pill">Capstone Project 4 · Design &amp; Analysis of Algorithms</span>
+<h1>Social Network <span>Connection &amp; Recommendation</span> Analysis</h1>
+<p>Users are vertices, friendships are edges. Explore networks with BFS &amp; DFS, find mutual friends, shortest paths and “people you may know” — benchmarked up to 100,000 users.</p>
+<a class="btn" href="#lab">Try the live demo</a><a class="btn o" href="#bench">See the results</a>
+<div class="stats">
+<div class="st"><b data-n="100000">0</b><small>users benchmarked</small></div>
+<div class="st"><b data-n="400000">0</b><small>connections</small></div>
+<div class="st"><b data-n="160" data-s="×">0</b><small>faster bidirectional BFS</small></div>
+<div class="st"><b data-n="24">0</b><small>unit tests</small></div>
+</div></div></header>
+
+<section><div class="wrap rv"><h2>What it does</h2><p class="sub">A pure-Python toolkit with CLI, CSV import/export and charts.</p>
+<div class="grid">
+<div class="card feat"><div class="ic">🧭</div><h3>BFS &amp; DFS</h3><p>Iterative and recursive traversal, plus connected components as communities.</p></div>
+<div class="card feat"><div class="ic">🤝</div><h3>Mutual connections</h3><p>Set intersection of neighbour sets in O(min(deg a, deg b)).</p></div>
+<div class="card feat"><div class="ic">🛣️</div><h3>Shortest path</h3><p>BFS with parent pointers and an optimised bidirectional variant.</p></div>
+<div class="card feat"><div class="ic">✨</div><h3>Recommendations</h3><p>Friends-of-friends ranked by number of mutual friends.</p></div>
+<div class="card feat"><div class="ic">📈</div><h3>Influence metrics</h3><p>Top users by degree, clustering coefficient and network density.</p></div>
+<div class="card feat"><div class="ic">⏱️</div><h3>Benchmarks</h3><p>Random and scale-free networks from 100 to 100,000 users.</p></div>
+</div></div></section>
+
+<section id="lab"><div class="wrap rv"><h2>Interactive lab</h2><p class="sub">The real sample network from the project (23 users). Pick an algorithm and watch it run. Drag nodes to rearrange.</p>
+<div class="lab"><div class="card">
+<div class="tabs" id="tabs"><button data-m="bfs" class="on">BFS</button><button data-m="dfs">DFS</button><button data-m="path">Shortest path</button><button data-m="mutual">Mutual friends</button><button data-m="rec">Recommend</button><button data-m="comm">Communities</button></div>
+<div class="row"><select id="sa" aria-label="User A"></select><span id="arrow">→</span><select id="sb" aria-label="User B"></select><button class="tabs" id="run" style="padding:0;border:0;background:none"><span class="btn" style="margin:0;padding:8px 20px">▶ Run</span></button></div>
+<canvas id="cv"></canvas>
+<div class="legend"><span class="dot" style="background:var(--a)"></span>start <span class="dot" style="background:var(--b);margin-left:10px"></span>visited <span class="dot" style="background:var(--c);margin-left:10px"></span>result / path <span class="dot" style="background:var(--ok);margin-left:10px"></span>recommended</div>
+</div>
+<div class="card out"><h3 id="ot">Ready</h3><div id="ob" style="color:var(--mut)">Choose an algorithm and press Run.</div></div></div>
+</div></section>
+
+<section id="algos"><div class="wrap rv"><h2>Algorithms &amp; complexity</h2><p class="sub">V = users, E = connections. Adjacency list gives O(V + E) space.</p>
+<div class="card scroll"><table><tr><th>Feature</th><th>Algorithm</th><th>Time</th><th>Space</th></tr>
+<tr><td>Explore nearest first</td><td>BFS (queue)</td><td><code>O(V+E)</code></td><td><code>O(V)</code></td></tr>
+<tr><td>Explore deep first</td><td>DFS (stack / recursive)</td><td><code>O(V+E)</code></td><td><code>O(V)</code></td></tr>
+<tr><td>Mutual connections</td><td>Set intersection</td><td><code>O(min(da,db))</code></td><td><code>O(min(da,db))</code></td></tr>
+<tr><td>Shortest path</td><td>BFS + parents</td><td><code>O(V+E)</code></td><td><code>O(V)</code></td></tr>
+<tr><td>Shortest path (fast)</td><td>Bidirectional BFS</td><td><code>~O(b^(d/2))</code></td><td><code>O(V)</code></td></tr>
+<tr><td>Communities</td><td>BFS from each unvisited user</td><td><code>O(V+E)</code></td><td><code>O(V)</code></td></tr>
+<tr><td>Recommendations</td><td>Friends-of-friends count</td><td><code>O(Σ deg(f))</code></td><td><code>O(Σ deg(f))</code></td></tr></table></div></div></section>
+
+<section id="bench"><div class="wrap rv"><h2>Benchmark results</h2><p class="sub">Median of 3 runs; path times averaged over 20 random pairs. Log-log scale — straight parallel lines mean linear growth.</p>
+<div class="card"><div class="tabs" id="nt"><button data-n="random" class="on">Random network</button><button data-n="scale_free">Scale-free (hubs)</button></div><div id="ch"></div>
+<h3 style="margin:22px 0 4px;font-size:16px">Path query at 100,000 users (ms / query)</h3><div class="bars" id="bars"></div></div></div></section>
+
+<section id="code"><div class="wrap rv"><h2>Use it as a library</h2><p class="sub">Python 3.9+, standard library only.</p>
+<pre><span class="k">from</span> socialnet <span class="k">import</span> SocialGraph, shortest_path, mutual_connections, recommend_friends
+
+g = SocialGraph.from_edges([(<span class="s">"A"</span>,<span class="s">"B"</span>),(<span class="s">"B"</span>,<span class="s">"C"</span>),(<span class="s">"A"</span>,<span class="s">"D"</span>),(<span class="s">"D"</span>,<span class="s">"C"</span>),(<span class="s">"C"</span>,<span class="s">"E"</span>)])
+shortest_path(g, <span class="s">"A"</span>, <span class="s">"E"</span>)       <span class="c"># ['A', 'B', 'C', 'E']</span>
+mutual_connections(g, <span class="s">"A"</span>, <span class="s">"C"</span>)  <span class="c"># {'B', 'D'}</span>
+recommend_friends(g, <span class="s">"A"</span>)        <span class="c"># [('C', 2)]</span></pre></div></section>
+
+<footer><div class="wrap">Built by <b>Riya</b> (2501010329) · B.Tech CSE, K.R Mangalam University · Faculty mentor: Anvi Aggarwal · MIT License</div></footer>
+
+<script>
+const $=s=>document.querySelector(s);
+// theme
+const root=document.documentElement;
+$('#th').onclick=()=>{const dark=getComputedStyle(root).getPropertyValue('--bg').trim()==='#0b0d1a';root.dataset.theme=dark?'light':'dark';};
+const css=v=>getComputedStyle(root).getPropertyValue(v).trim();
+// reveal + counters
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.1});
+document.querySelectorAll('.rv').forEach(e=>io.observe(e));
+document.querySelectorAll('[data-n]').forEach(el=>{if(!el.dataset.n||el.tagName==='BUTTON')return;if(!el.classList.contains('')&&el.parentElement.classList.contains('st')){const t=+el.dataset.n,s=el.dataset.s||'';let st=null;const f=ts=>{st=st||ts;const p=Math.min((ts-st)/1400,1);el.textContent=Math.round(t*(1-Math.pow(1-p,3))).toLocaleString()+s;if(p<1)requestAnimationFrame(f)};requestAnimationFrame(f)}});
+
+// ---- graph (project sample_network.csv)
+const E=`Riya,Samaira;Riya,Mansi;Riya,Aashi;Samaira,Mansi;Samaira,Nicky;Mansi,Aashi;Aashi,Priya;Aashi,Kavya;Nicky,Rohan;Nicky,Ananya;Rohan,Ananya;Rohan,Dev;Priya,Kavya;Priya,Isha;Kavya,Isha;Dev,Karan;Karan,Meera;Meera,Tanvi;Tanvi,Karan;Isha,Neha;Neha,Tanvi`.split(';').map(s=>s.split(','));
+const adj=new Map();const add=u=>{if(!adj.has(u))adj.set(u,new Set())};
+E.forEach(([a,b])=>{add(a);add(b);adj.get(a).add(b);adj.get(b).add(a)});add('Zoya');
+const U=[...adj.keys()],N=(u)=>adj.get(u);
+function bfs(s){const seen=new Set([s]),o=[],q=[s],par={};while(q.length){const u=q.shift();o.push(u);[...N(u)].sort().forEach(v=>{if(!seen.has(v)){seen.add(v);par[v]=u;q.push(v)}})}return{o,par}}
+function dfs(s){const seen=new Set(),o=[],st=[s];while(st.length){const u=st.pop();if(seen.has(u))continue;seen.add(u);o.push(u);[...N(u)].sort().reverse().forEach(v=>{if(!seen.has(v))st.push(v)})}return o}
+function path(a,b){const {par}=bfs(a);if(a===b)return[a];if(!(b in par))return null;const p=[b];while(p[0]!==a)p.unshift(par[p[0]]);return p}
+function mutual(a,b){return[...N(a)].filter(x=>N(b).has(x)).sort()}
+function rec(u){const sc={};N(u).forEach(f=>N(f).forEach(x=>{if(x!==u&&!N(u).has(x))sc[x]=(sc[x]||0)+1}));return Object.entries(sc).sort((x,y)=>y[1]-x[1]||x[0].localeCompare(y[0]))}
+function comps(){const seen=new Set(),r=[];U.forEach(u=>{if(!seen.has(u)){const c=bfs(u).o;c.forEach(x=>seen.add(x));r.push(c)}});return r.sort((a,b)=>b.length-a.length)}
+
+// ---- layout
+const cv=$('#cv'),cx=cv.getContext('2d');let W=0,H=0,dpr=1;
+const P={};U.forEach((u,i)=>{const a=i/U.length*6.283;P[u]={x:Math.cos(a)*150,y:Math.sin(a)*150,vx:0,vy:0}});
+function resize(){dpr=devicePixelRatio||1;W=cv.clientWidth;H=cv.clientHeight;cv.width=W*dpr;cv.height=H*dpr;cx.setTransform(dpr,0,0,dpr,0,0)}
+function sim(){const k=70;U.forEach(a=>{const p=P[a];U.forEach(b=>{if(a===b)return;const q=P[b];let dx=p.x-q.x,dy=p.y-q.y,d=Math.hypot(dx,dy)||.1,f=k*k*1.6/d/d;p.vx+=dx/d*f;p.vy+=dy/d*f});p.vx-=p.x*.012;p.vy-=p.y*.012});
+E.forEach(([a,b])=>{const p=P[a],q=P[b];let dx=q.x-p.x,dy=q.y-p.y,d=Math.hypot(dx,dy)||.1,f=(d-k)*.05;p.vx+=dx/d*f;p.vy+=dy/d*f;q.vx-=dx/d*f;q.vy-=dy/d*f});
+U.forEach(u=>{const p=P[u];if(p===drag)return;p.x+=p.vx*.5;p.y+=p.vy*.5;p.vx*=.6;p.vy*=.6})}
+let drag=null,state={vis:new Map(),start:null,res:new Set(),rec:new Set(),edges:new Set(),comm:null};
+const COL=['#7c5cff','#22d3ee','#ff5c9d','#34d399','#fbbf24'];
+const ek=(a,b)=>a<b?a+'|'+b:b+'|'+a;
+const sx=p=>W/2+p.x*Math.min(W/520,1.3),sy=p=>H/2+p.y*Math.min(H/420,1.3);
+function draw(){sim();cx.clearRect(0,0,W,H);
+E.forEach(([a,b])=>{const hot=state.edges.has(ek(a,b));cx.beginPath();cx.moveTo(sx(P[a]),sy(P[a]));cx.lineTo(sx(P[b]),sy(P[b]));cx.strokeStyle=hot?css('--c'):css('--node');cx.lineWidth=hot?3.5:1.5;cx.stroke()});
+U.forEach(u=>{const p=P[u],x=sx(p),y=sy(p);let c=css('--node'),r=15;
+if(state.comm!==null){c=COL[state.comm[u]%5]}
+if(state.vis.has(u)){c=css('--b')}if(state.rec.has(u)){c=css('--ok')}if(state.res.has(u)){c=css('--c')}if(u===state.start){c=css('--a');r=19}
+cx.beginPath();cx.arc(x,y,r,0,7);cx.fillStyle=c;cx.shadowColor=c;cx.shadowBlur=c===css('--node')?0:14;cx.fill();cx.shadowBlur=0;
+cx.fillStyle=css('--tx');cx.font='12px system-ui';cx.textAlign='center';cx.fillText(u,x,y+r+14);
+if(state.vis.has(u)){cx.fillStyle='#fff';cx.font='bold 11px system-ui';cx.fillText(state.vis.get(u),x,y+4)}});
+requestAnimationFrame(draw)}
+const hit=(e)=>{const r=cv.getBoundingClientRect(),mx=e.clientX-r.left,my=e.clientY-r.top;return U.find(u=>Math.hypot(sx(P[u])-mx,sy(P[u])-my)<20)};
+cv.onpointerdown=e=>{const u=hit(e);if(u){drag=P[u];cv.setPointerCapture(e.pointerId)}};
+cv.onpointermove=e=>{if(drag){const r=cv.getBoundingClientRect(),s=Math.min(W/520,1.3),t=Math.min(H/420,1.3);drag.x=(e.clientX-r.left-W/2)/s;drag.y=(e.clientY-r.top-H/2)/t}};
+cv.onpointerup=()=>drag=null;
+addEventListener('resize',resize);resize();draw();
+
+// ---- controls
+let mode='bfs',timer=null;
+const sa=$('#sa'),sb=$('#sb');[sa,sb].forEach(s=>U.forEach(u=>s.add(new Option(u,u))));sa.value='Riya';sb.value='Meera';
+function reset(){clearInterval(timer);state={vis:new Map(),start:null,res:new Set(),rec:new Set(),edges:new Set(),comm:null}}
+function out(t,h){$('#ot').textContent=t;$('#ob').innerHTML=h}
+const chips=(a,h)=>a.map(x=>`<span class="chip${h?' h':''}">${x}</span>`).join('')||'<span style="color:var(--mut)">none</span>';
+function setMode(m){mode=m;document.querySelectorAll('#tabs button').forEach(b=>b.classList.toggle('on',b.dataset.m===m));
+sb.style.display=$('#arrow').style.display=(m==='path'||m==='mutual')?'':'none';
+$('#run').style.display=''; if(m==='comm')sa.style.display='none';else sa.style.display='';run()}
+document.querySelectorAll('#tabs button').forEach(b=>b.onclick=()=>setMode(b.dataset.m));
+function animate(order,done){let i=0;timer=setInterval(()=>{if(i>=order.length){clearInterval(timer);done&&done();return}state.vis.set(order[i],i+1);i++},420)}
+function run(){reset();const a=sa.value,b=sb.value;state.start=a;
+if(mode==='bfs'||mode==='dfs'){const o=mode==='bfs'?bfs(a).o:dfs(a);out(mode.toUpperCase()+' from '+a,`<p style="margin:0 0 8px">Visiting order (${o.length} users reachable) — O(V+E)</p>`+chips(o));animate(o)}
+else if(mode==='path'){const p=path(a,b);state.start=a;if(!p){out('Shortest path','<b>'+a+'</b> and <b>'+b+'</b> are not connected.');return}
+out('Shortest path',`<p style="margin:0 0 8px">${p.join(' → ')}</p><p style="margin:0">Degrees of separation: <b style="color:var(--b);font-size:22px">${p.length-1}</b></p>`);
+animate(bfs(a).o.slice(0,0),0);p.forEach((u,i)=>setTimeout(()=>{state.res.add(u);if(i)state.edges.add(ek(p[i-1],u))},i*450))}
+else if(mode==='mutual'){const m=mutual(a,b);out('Mutual connections',`<p style="margin:0 0 8px">${a} &amp; ${b} share <b>${m.length}</b>:</p>`+chips(m,1));m.forEach(u=>{state.res.add(u);state.edges.add(ek(a,u));state.edges.add(ek(b,u))});state.vis.set(b,'');}
+else if(mode==='rec'){const r=rec(a);out('People you may know',`<p style="margin:0 0 8px">For ${a}, ranked by mutual friends:</p>`+(r.length?r.map(([u,c])=>`<div style="margin:6px 0"><span class="chip h">${u}</span> ${c} mutual friend${c>1?'s':''}</div>`).join(''):'No recommendations available.'));r.forEach(([u])=>state.rec.add(u))}
+else if(mode==='comm'){const c=comps();state.comm={};c.forEach((g,i)=>g.forEach(u=>state.comm[u]=i));state.start=null;out('Communities',c.map((g,i)=>`<p style="margin:0 0 6px"><b style="color:${COL[i%5]}">Community ${i+1}</b> (${g.length})</p>`+chips(g)).join(''))}}
+$('#run').onclick=run;sa.onchange=sb.onchange=run;setMode('bfs');
+
+// ---- benchmark
+const B={random:[[100,.063,.080,.0098,.0076],[500,.383,.490,.083,.022],[1e3,.769,1.0,.113,.0285],[5e3,6.55,7.21,.948,.069],[1e4,10.8,11.7,1.82,.085],[5e4,116,126,18.5,.265],[1e5,311,402,56.1,.35]],
+scale_free:[[100,.056,.059,.0073,.0056],[500,.255,.330,.034,.0126],[1e3,.528,.686,.078,.0179],[5e3,3.04,3.88,.611,.051],[1e4,6.49,8.3,1.05,.067],[5e4,60.7,73.9,7.62,.195],[1e5,152,184,18.0,.206]]};
+const S=[['Full BFS','#22d3ee'],['Full DFS','#7c5cff'],['Path: BFS','#ff5c9d'],['Path: bidirectional','#34d399']];
+function chart(k){const d=B[k],w=720,h=340,m={l:56,r:16,t:16,b:46},lx=Math.log10,x0=lx(100),x1=lx(1e5),y0=-3,y1=3;
+const X=v=>m.l+(lx(v)-x0)/(x1-x0)*(w-m.l-m.r),Y=v=>m.t+(1-(lx(v)-y0)/(y1-y0))*(h-m.t-m.b);let s=`<svg viewBox="0 0 ${w} ${h}" role="img" aria-label="Benchmark log-log chart">`;
+for(let e=-3;e<=3;e++){s+=`<line x1="${m.l}" x2="${w-m.r}" y1="${Y(10**e)}" y2="${Y(10**e)}" stroke="${css('--bd')}"/><text x="${m.l-8}" y="${Y(10**e)+4}" text-anchor="end" font-size="11" fill="${css('--mut')}">${10**e}</text>`}
+[100,1e3,1e4,1e5].forEach(v=>s+=`<text x="${X(v)}" y="${h-m.b+18}" text-anchor="middle" font-size="11" fill="${css('--mut')}">${v.toLocaleString()}</text>`);
+s+=`<text x="${w/2}" y="${h-6}" text-anchor="middle" font-size="12" fill="${css('--mut')}">users (V) — time in ms</text>`;
+S.forEach(([n,c],i)=>{const pts=d.map(r=>[X(r[0]),Y(r[i+1])]);const L=pts.map(p=>p.join(',')).join(' ');
+s+=`<polyline points="${L}" fill="none" stroke="${c}" stroke-width="2.5" stroke-dasharray="1200" stroke-dashoffset="1200"><animate attributeName="stroke-dashoffset" to="0" dur="1.2s" fill="freeze"/></polyline>`;
+pts.forEach(p=>s+=`<circle cx="${p[0]}" cy="${p[1]}" r="3.5" fill="${c}"/>`);
+s+=`<rect x="${m.l+10+i*150}" y="${m.t+6}" width="10" height="10" rx="3" fill="${c}"/><text x="${m.l+25+i*150}" y="${m.t+15}" font-size="11" fill="${css('--tx')}">${n}</text>`});
+$('#ch').innerHTML=s+'</svg>';const l=d[6];const mx=l[3];
+$('#bars').innerHTML=[['One-sided BFS',l[3],''],['Bidirectional',l[4],'g']].map(([n,v,c])=>`<div class="bar ${c}"><span>${n}</span><i style="width:0" data-w="${Math.max(v/mx*100,1.5)}"></i><b>${v} ms</b></div>`).join('')+`<p style="margin:4px 0 0;color:var(--mut);font-size:14px">≈ <b style="color:var(--ok)">${Math.round(l[3]/l[4])}× faster</b> by searching from both ends and meeting in the middle.</p>`;
+setTimeout(()=>document.querySelectorAll('.bar i').forEach(i=>i.style.width=i.dataset.w+'%'),50)}
+document.querySelectorAll('#nt button').forEach(b=>b.onclick=()=>{document.querySelectorAll('#nt button').forEach(x=>x.classList.toggle('on',x===b));chart(b.dataset.n)});
+chart('random');
+// hero background network
+(()=>{const c=$('#hc'),g=c.getContext('2d');let w,h,n=[];const rs=()=>{w=c.width=c.clientWidth;h=c.height=c.clientHeight;n=Array.from({length:Math.min(55,w/18|0)},()=>({x:Math.random()*w,y:Math.random()*h,vx:(Math.random()-.5)*.4,vy:(Math.random()-.5)*.4}))};rs();addEventListener('resize',rs);
+(function f(){g.clearRect(0,0,w,h);n.forEach(p=>{p.x+=p.vx;p.y+=p.vy;if(p.x<0||p.x>w)p.vx*=-1;if(p.y<0||p.y>h)p.vy*=-1});
+for(let i=0;i<n.length;i++)for(let j=i+1;j<n.length;j++){const d=Math.hypot(n[i].x-n[j].x,n[i].y-n[j].y);if(d<130){g.strokeStyle=css('--a');g.globalAlpha=1-d/130;g.beginPath();g.moveTo(n[i].x,n[i].y);g.lineTo(n[j].x,n[j].y);g.stroke()}}
+g.globalAlpha=1;g.fillStyle=css('--b');n.forEach(p=>{g.beginPath();g.arc(p.x,p.y,2.5,0,7);g.fill()});requestAnimationFrame(f)})()})();
+</script></body></html>
